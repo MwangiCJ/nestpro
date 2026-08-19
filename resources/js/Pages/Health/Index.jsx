@@ -2,6 +2,7 @@ import AppLayout from '@/Layouts/AppLayout';
 import PageHeader from '@/Components/PageHeader';
 import EmptyState from '@/Components/EmptyState';
 import { Link, router } from '@inertiajs/react';
+import { formatCurrency } from '@/utils/currency';
 
 const typeColors = {
     vaccination: 'bg-blue-100 text-blue-700',
@@ -14,7 +15,7 @@ const typeColors = {
 
 export default function HealthIndex({ records, upcoming }) {
     const rows = records?.data ?? [];
-    const curr = n => `GH₵ ${Number(n ?? 0).toFixed(2)}`;
+    const curr = formatCurrency;
 
     const confirmDelete = (id) => {
         if (confirm('Delete this health record?')) router.delete(`/health/${id}`);

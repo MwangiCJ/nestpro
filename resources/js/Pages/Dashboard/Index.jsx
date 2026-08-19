@@ -1,13 +1,14 @@
 import AppLayout from '@/Layouts/AppLayout';
 import StatCard from '@/Components/StatCard';
 import { Link } from '@inertiajs/react';
+import { CURRENCY_SYMBOL } from '@/utils/currency';
 
 function fmt(n) {
     if (n === undefined || n === null) return '—';
     return Number(n).toLocaleString('en-GH', { minimumFractionDigits: 0, maximumFractionDigits: 0 });
 }
 
-function currency(n, symbol = 'GH₵') {
+function currency(n, symbol = CURRENCY_SYMBOL) {
     if (n === undefined || n === null) return '—';
     return `${symbol} ${Number(n).toLocaleString('en-GH', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
 }

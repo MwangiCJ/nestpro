@@ -2,10 +2,11 @@ import AppLayout from '@/Layouts/AppLayout';
 import PageHeader from '@/Components/PageHeader';
 import EmptyState from '@/Components/EmptyState';
 import { Link, router } from '@inertiajs/react';
+import { formatCurrency } from '@/utils/currency';
 
 export default function FeedExpenseIndex({ purchases: purchasesProp, monthTotal }) {
     const purchases = purchasesProp?.data ?? purchasesProp ?? [];
-    const curr = n => `GH₵ ${Number(n ?? 0).toFixed(2)}`;
+    const curr = formatCurrency;
     const fmt = n => Number(n ?? 0).toLocaleString();
 
     const confirmDelete = (id) => {

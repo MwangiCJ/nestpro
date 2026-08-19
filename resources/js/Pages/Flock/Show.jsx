@@ -1,5 +1,6 @@
 import AppLayout from '@/Layouts/AppLayout';
 import { Link, router } from '@inertiajs/react';
+import { formatCurrency } from '@/utils/currency';
 
 export default function FlockShow({ flock, recentEggs, upcomingHealth }) {
     const fmt = (n) => Number(n ?? 0).toLocaleString();
@@ -15,7 +16,7 @@ export default function FlockShow({ flock, recentEggs, upcomingHealth }) {
         ['Source Name', flock.source_name || '—'],
         ['Arrival Date', flock.arrival_date],
         ['Age at Arrival', `${flock.age_weeks} weeks`],
-        ['Purchase Cost', flock.purchase_cost ? `GH₵ ${Number(flock.purchase_cost).toFixed(2)}` : '—'],
+        ['Purchase Cost', flock.purchase_cost ? formatCurrency(flock.purchase_cost) : '—'],
         ['House', flock.house?.name || 'Not assigned'],
         ['Status', flock.status],
     ];

@@ -1,5 +1,6 @@
 import AppLayout from '@/Layouts/AppLayout';
 import { useForm, Link } from '@inertiajs/react';
+import { CURRENCY_SYMBOL } from '@/utils/currency';
 
 const Field = ({ label, name, type = 'text', options, data, setData, errors }) => (
     <div>
@@ -73,11 +74,11 @@ export default function FeedExpenseForm({ purchase }) {
                     </div>
                     <div className="grid grid-cols-2 gap-3">
                         <Field label="Quantity (kg)" name="quantity_kg" type="number" {...fp} />
-                        <Field label="Price per kg (GH₵)" name="unit_price" type="number" {...fp} />
+                        <Field label={`Price per kg (${CURRENCY_SYMBOL})`} name="unit_price" type="number" {...fp} />
                     </div>
                     <div className="flex items-end gap-2">
                         <div className="flex-1">
-                            <Field label="Total Cost (GH₵)" name="total_cost" type="number" {...fp} />
+                            <Field label={`Total Cost (${CURRENCY_SYMBOL})`} name="total_cost" type="number" {...fp} />
                         </div>
                         <button type="button" onClick={calcTotal} className="mb-0.5 text-xs bg-gray-100 text-gray-600 px-2 py-2.5 rounded-lg">
                             Calc

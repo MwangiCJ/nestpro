@@ -2,13 +2,14 @@ import AppLayout from '@/Layouts/AppLayout';
 import PageHeader from '@/Components/PageHeader';
 import EmptyState from '@/Components/EmptyState';
 import { Link, router } from '@inertiajs/react';
+import { formatCurrency } from '@/utils/currency';
 
 const typeIcons = { egg: '🥚', manure: '🌱', meat: '🍗', live_bird: '🐔', other: '📦' };
 const paymentColors = { paid: 'bg-green-100 text-green-700', partial: 'bg-amber-100 text-amber-700', unpaid: 'bg-red-100 text-red-700' };
 
 export default function SalesIndex({ sales: salesProp, monthTotal, pendingAmount }) {
     const sales = salesProp?.data ?? salesProp ?? [];
-    const curr = n => `GH₵ ${Number(n ?? 0).toFixed(2)}`;
+    const curr = formatCurrency;
 
     const confirmDelete = (id) => {
         if (confirm('Delete this sale record?')) router.delete(`/sales/${id}`);

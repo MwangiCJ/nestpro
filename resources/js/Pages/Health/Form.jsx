@@ -1,5 +1,6 @@
 import AppLayout from '@/Layouts/AppLayout';
 import { useForm, Link } from '@inertiajs/react';
+import { CURRENCY_SYMBOL } from '@/utils/currency';
 
 const Field = ({ label, name, type = 'text', options, data, setData, errors }) => (
     <div>
@@ -79,7 +80,7 @@ export default function HealthForm({ record, flocks, defaultFlockId }) {
                     </div>
                     <div className="grid grid-cols-2 gap-3">
                         <Field label="Birds Affected" name="birds_affected" type="number" {...fp} />
-                        <Field label="Cost (GH₵)" name="cost" type="number" {...fp} />
+                        <Field label={`Cost (${CURRENCY_SYMBOL})`} name="cost" type="number" {...fp} />
                     </div>
                     <Field label="Vet Name" name="vet_name" {...fp} />
                     <div className="grid grid-cols-2 gap-3">

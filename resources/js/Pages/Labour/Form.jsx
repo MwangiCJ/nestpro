@@ -1,5 +1,6 @@
 import AppLayout from '@/Layouts/AppLayout';
 import { useForm, Link } from '@inertiajs/react';
+import { CURRENCY_SYMBOL } from '@/utils/currency';
 
 const Field = ({ label, name, type = 'text', options, data, setData, errors }) => (
     <div>
@@ -62,11 +63,11 @@ export default function LabourForm({ record }) {
                     <Field label="Work Date" name="work_date" type="date" {...fp} />
                     <div className="grid grid-cols-2 gap-3">
                         <Field label="Hours Worked" name="hours_worked" type="number" {...fp} />
-                        <Field label="Rate per Hour (GH₵)" name="rate_per_hour" type="number" {...fp} />
+                        <Field label={`Rate per Hour (${CURRENCY_SYMBOL})`} name="rate_per_hour" type="number" {...fp} />
                     </div>
                     <div className="flex items-end gap-2">
                         <div className="flex-1">
-                            <Field label="Total Pay (GH₵)" name="total_pay" type="number" {...fp} />
+                            <Field label={`Total Pay (${CURRENCY_SYMBOL})`} name="total_pay" type="number" {...fp} />
                         </div>
                         <button type="button" onClick={calcPay} className="mb-0.5 text-xs bg-gray-100 text-gray-600 px-2 py-2.5 rounded-lg">Calc</button>
                     </div>

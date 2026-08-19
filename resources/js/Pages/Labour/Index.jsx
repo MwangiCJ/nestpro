@@ -2,12 +2,13 @@ import AppLayout from '@/Layouts/AppLayout';
 import PageHeader from '@/Components/PageHeader';
 import EmptyState from '@/Components/EmptyState';
 import { Link, router } from '@inertiajs/react';
+import { formatCurrency } from '@/utils/currency';
 
 const paymentColors = { paid: 'bg-green-100 text-green-700', pending: 'bg-amber-100 text-amber-700', partial: 'bg-blue-100 text-blue-700' };
 
 export default function LabourIndex({ records, monthTotal, pendingPay }) {
     const rows = records?.data ?? [];
-    const curr = n => `GH₵ ${Number(n ?? 0).toFixed(2)}`;
+    const curr = formatCurrency;
 
     const confirmDelete = (id) => {
         if (confirm('Delete this labour record?')) router.delete(`/labour/${id}`);
