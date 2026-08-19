@@ -6,6 +6,7 @@ import { Link, router } from '@inertiajs/react';
 const paymentColors = { paid: 'bg-green-100 text-green-700', pending: 'bg-amber-100 text-amber-700', partial: 'bg-blue-100 text-blue-700' };
 
 export default function LabourIndex({ records, monthTotal, pendingPay }) {
+    const rows = records?.data ?? [];
     const curr = n => `GH₵ ${Number(n ?? 0).toFixed(2)}`;
 
     const confirmDelete = (id) => {
@@ -33,11 +34,11 @@ export default function LabourIndex({ records, monthTotal, pendingPay }) {
                 </div>
             )}
 
-            {records.length === 0 ? (
+            {rows.length === 0 ? (
                 <EmptyState icon="👷" title="No labour records" description="Track worker wages, tasks, and payment status." action={{ href: '/labour/create', label: 'Add Record' }} />
             ) : (
                 <div className="space-y-3">
-                    {records.map(r => (
+                    {rows.map(r => (
                         <div key={r.id} className="bg-white rounded-xl border border-gray-100 p-4">
                             <div className="flex items-start justify-between">
                                 <div>

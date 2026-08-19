@@ -13,6 +13,7 @@ const typeColors = {
 };
 
 export default function HealthIndex({ records, upcoming }) {
+    const rows = records?.data ?? [];
     const curr = n => `GH₵ ${Number(n ?? 0).toFixed(2)}`;
 
     const confirmDelete = (id) => {
@@ -23,7 +24,7 @@ export default function HealthIndex({ records, upcoming }) {
         <AppLayout title="Vet & Health">
             <PageHeader
                 title="Vet & Health Records"
-                subtitle={`${records.length} records`}
+                subtitle={`${records?.total ?? rows.length} records`}
                 action={{ href: '/health/create', label: 'Add Record' }}
             />
 
@@ -42,11 +43,11 @@ export default function HealthIndex({ records, upcoming }) {
                 </div>
             )}
 
-            {records.length === 0 ? (
+            {rows.length === 0 ? (
                 <EmptyState icon="💉" title="No health records" description="Log vaccinations, treatments, and vet visits." action={{ href: '/health/create', label: 'Add Record' }} />
             ) : (
                 <div className="space-y-3">
-                    {records.map(h => (
+                    {rows.map(h => (
                         <div key={h.id} className="bg-white rounded-xl border border-gray-100 p-4">
                             <div className="flex items-start justify-between">
                                 <div>

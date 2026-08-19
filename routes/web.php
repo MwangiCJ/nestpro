@@ -29,35 +29,37 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/farm/{farm}/edit', [FarmController::class, 'edit'])->name('farm.edit');
     Route::put('/farm/{farm}', [FarmController::class, 'update'])->name('farm.update');
 
-    // Flock Register
-    Route::resource('flocks', FlockController::class);
+    Route::middleware('farm.exists')->group(function () {
+        // Flock Register
+        Route::resource('flocks', FlockController::class);
 
-    // Egg Production
-    Route::resource('egg-production', EggProductionController::class);
+        // Egg Production
+        Route::resource('egg-production', EggProductionController::class);
 
-    // Sales
-    Route::resource('sales', SaleController::class);
+        // Sales
+        Route::resource('sales', SaleController::class);
 
-    // Feed Expense (purchases)
-    Route::resource('feed-expenses', FeedPurchaseController::class);
+        // Feed Expense (purchases)
+        Route::resource('feed-expenses', FeedPurchaseController::class);
 
-    // Feed Consumption
-    Route::resource('feed-consumption', FeedConsumptionController::class);
+        // Feed Consumption
+        Route::resource('feed-consumption', FeedConsumptionController::class);
 
-    // Vet & Health
-    Route::resource('health', HealthController::class);
+        // Vet & Health
+        Route::resource('health', HealthController::class);
 
-    // Mortality Log
-    Route::resource('mortality', MortalityController::class);
+        // Mortality Log
+        Route::resource('mortality', MortalityController::class);
 
-    // Housing
-    Route::resource('housing', HousingController::class);
+        // Housing
+        Route::resource('housing', HousingController::class);
 
-    // Equipment
-    Route::resource('equipment', EquipmentController::class);
+        // Equipment
+        Route::resource('equipment', EquipmentController::class);
 
-    // Labour & Operations
-    Route::resource('labour', LabourController::class);
+        // Labour & Operations
+        Route::resource('labour', LabourController::class);
+    });
 
     // Profile
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
