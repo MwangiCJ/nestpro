@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('breed')->nullable();
             $table->unsignedInteger('initial_quantity');
             $table->unsignedInteger('current_quantity');
-            $table->enum('source', ['hatchery', 'purchase', 'own_breeding'])->default('purchase');
+            $table->enum('source', ['purchase', 'hatched', 'gifted', 'transferred'])->default('purchase');
             $table->string('source_name')->nullable();
             $table->date('arrival_date');
             $table->unsignedInteger('age_weeks')->default(0);

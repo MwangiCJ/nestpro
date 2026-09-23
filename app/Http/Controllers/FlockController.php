@@ -44,7 +44,7 @@ class FlockController extends Controller
             'bird_type'        => 'required|in:layer,broiler,cockerel,turkey,duck,guinea_fowl,other',
             'breed'            => 'nullable|string|max:255',
             'initial_quantity' => 'required|integer|min:1',
-            'source'           => 'required|in:hatchery,purchase,own_breeding',
+            'source'           => 'required|in:purchase,hatched,gifted,transferred',
             'source_name'      => 'nullable|string|max:255',
             'arrival_date'     => 'required|date',
             'age_weeks'        => 'nullable|integer|min:0',
@@ -97,6 +97,7 @@ class FlockController extends Controller
             'breed'            => 'nullable|string|max:255',
             'current_quantity' => 'required|integer|min:0',
             'status'           => 'required|in:active,sold,culled,completed',
+            'source'           => 'required|in:purchase,hatched,gifted,transferred',
             'age_weeks'        => 'nullable|integer|min:0',
             'notes'            => 'nullable|string',
         ]);

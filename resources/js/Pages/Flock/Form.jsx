@@ -35,11 +35,11 @@ export default function FlockForm({ flock, houses }) {
         breed: flock?.breed ?? '',
         initial_quantity: flock?.initial_quantity ?? '',
         current_quantity: flock?.current_quantity ?? '',
-        source: flock?.source ?? 'purchased',
+        source: flock?.source ?? 'purchase',
         source_name: flock?.source_name ?? '',
         arrival_date: flock?.arrival_date ?? '',
         age_weeks: flock?.age_weeks ?? '',
-        purchase_cost: flock?.purchase_cost ?? '',
+        purchase_cost: flock?.purchase_cost ?? '0',
         house_id: flock?.house_id ?? '',
         status: flock?.status ?? 'active',
         notes: flock?.notes ?? '',
@@ -83,7 +83,7 @@ export default function FlockForm({ flock, houses }) {
 
                     <div className="grid grid-cols-2 gap-3">
                         <Field label="Source" name="source" options={[
-                            { value: 'purchased', label: 'Purchased' },
+                            { value: 'purchase', label: 'Purchased' },
                             { value: 'hatched', label: 'Hatched' },
                             { value: 'gifted', label: 'Gifted' },
                             { value: 'transferred', label: 'Transferred' },
@@ -93,7 +93,7 @@ export default function FlockForm({ flock, houses }) {
 
                     <div className="grid grid-cols-2 gap-3">
                         <Field label="Arrival Date" name="arrival_date" type="date" required {...fp} />
-                        <Field label="Age (weeks)" name="age_weeks" type="number" {...fp} />
+                        <Field label="Age (weeks)" name="age_weeks" type="number" required {...fp} />
                     </div>
 
                     <Field label="Purchase Cost (total)" name="purchase_cost" type="number" {...fp} />
