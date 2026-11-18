@@ -1,0 +1,46 @@
+# Git and IDE
+.git
+.gitignore
+.gitattributes
+.editorconfig
+.idea
+.vscode
+.zed
+.cursor
+.codex
+
+# Dependencies and build artifacts
+vendor
+node_modules
+/public/build
+/public/hot
+/public/storage
+
+# Environment and local files
+.env
+.env.*
+!.env.example
+!.env.docker.example
+
+# Tests and docs (not needed in runtime image)
+tests
+phpunit.xml
+docs
+
+# Docker files themselves not needed inside image context copies except configs referenced
+Dockerfile
+docker-compose*.yml
+.dockerignore
+
+# OS / misc
+.DS_Store
+Thumbs.db
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+storage/*.key
+storage/pail
+Homestead.json
+Homestead.yaml
+auth.json

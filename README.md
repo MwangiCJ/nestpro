@@ -7,6 +7,64 @@
 <a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
 </p>
 
+## Docker
+
+This project includes Docker support for building a production-ready image (nginx + PHP-FPM) and running it with MySQL via Docker Compose.
+
+### Quick script (build + run on host port 2030)
+
+A helper script is included to build the image and run the container mapped to host port **2030**:
+
+```bash
+chmod +x docker-build-run.sh
+./docker-build-run.sh
+```
+
+Optional variables: `IMAGE_NAME` (default `nestpro:latest`), `CONTAINER_NAME` (default `nestpro-app`), `HOST_PORT` (default `2030`), `ENV_FILE` (e.g. `.env.docker`), and app/DB vars like `APP_KEY`, `APP_URL`, `DB_*`, `RUN_MIGRATIONS`.
+
+Example with an env file:
+
+```bash
+ENV_FILE=.env.docker APP_URL=http://your-server:2030 ./docker-build-run.sh
+```
+
+### Build and run with Docker Compose
+
+1. Create an environment file (or export variables in your deployment environment):
+   - Copy values from `.env.docker.example` as a starting point.
+   - Set a strong `APP_KEY` (generate one with `php artisan key:generate --show` from a PHP/Laravel environment, or let the container generate one on first boot if none is provided).
+   - Set secure database passwords and the correct `APP_URL`.
+
+2. Build and start:
+   ```bash
+   docker compose up -d --build
+   ```
+
+3. Open the app at `http://localhost:8080` (or the host/port you configured via `APP_PORT` / `APP_URL`).
+
+On startup the container waits for the database, runs migrations by default (`RUN_MIGRATIONS=true`), creates the storage symlink, and caches config/routes/views for production.
+
+### Build and run the image manually
+
+```bash
+docker build -t nestpro:latest .
+docker run -d --name nestpro \
+  -p 8080:80 \
+  -e APP_ENV=production \
+  -e APP_DEBUG=false \
+  -e APP_KEY=base64:YOUR_KEY_HERE \
+  -e APP_URL=http://your-server:8080 \
+  -e DB_CONNECTION=mysql \
+  -e DB_HOST=your-db-host \
+  -e DB_PORT=3306 \
+  -e DB_DATABASE=nestpro \
+  -e DB_USERNAME=nestpro \
+  -e DB_PASSWORD=secret \
+  nestpro:latest
+```
+
+For SQLite instead of MySQL, set `DB_CONNECTION=sqlite` and mount/provide a persistent SQLite database file (default path is `database/database.sqlite` inside the app). For production on a remote server, prefer MySQL/PostgreSQL and a reverse proxy (TLS termination) in front of the container.
+
 ## About Laravel
 
 Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
