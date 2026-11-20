@@ -125,7 +125,7 @@ export default function Login({ status, canResetPassword }) {
                 {/* Form panel */}
                 <div className="flex min-h-screen flex-col justify-center px-4 py-10 sm:px-6 lg:px-16 xl:px-24">
                     <div className="mx-auto w-full max-w-md">
-                        <div className="mb-8 lg:hidden">
+                        <div className="mb-8 flex justify-center lg:hidden">
                             <Link href="/" className="inline-flex items-center gap-3">
                                 <span className="flex h-11 w-11 items-center justify-center rounded-xl bg-white shadow-sm ring-1 ring-stone-200">
                                     <ApplicationLogo className="h-7 w-7" />
