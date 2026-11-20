@@ -4,7 +4,9 @@ set -euo pipefail
 # Build the NestPro Docker image and run it with the container port mapped to host port 2030.
 #
 # Usage:
-#   ./docker-build-run.sh
+#   cp .env.docker.example .env.docker   # fill in APP_KEY and database details
+#   ENV_FILE=.env.docker ./docker-build-run.sh
+#   # or simply: ./docker-build-run.sh
 #
 # Optional environment variables:
 #   IMAGE_NAME=nestpro:latest        Docker image tag to build/run
@@ -13,6 +15,7 @@ set -euo pipefail
 #   ENV_FILE=.env.docker            Env file passed to `docker run --env-file`
 #   APP_URL=http://server:2030       Public app URL (forwarded into the container)
 #   APP_KEY=base64:...               Laravel app key (recommended for production)
+#   DB_CONNECTION/DB_HOST/DB_PORT/DB_DATABASE/DB_USERNAME/DB_PASSWORD  Database details
 #   RUN_MIGRATIONS=true|false        Run migrations on container start (default: true)
 
 IMAGE_NAME="${IMAGE_NAME:-nestpro:latest}"

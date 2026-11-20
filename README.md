@@ -15,17 +15,26 @@ This project includes Docker support for building a production-ready image (ngin
 
 A helper script is included to build the image and run the container mapped to host port **2030**:
 
+1. Create your Docker env file and fill in **database details** (and `APP_KEY`, `APP_URL`, etc.):
+   ```bash
+   cp .env.docker.example .env.docker
+   # edit .env.docker and set DB_CONNECTION, DB_HOST, DB_PORT, DB_DATABASE, DB_USERNAME, DB_PASSWORD
+   ```
+
+2. Build and run:
+   ```bash
+   chmod +x docker-build-run.sh
+   ENV_FILE=.env.docker ./docker-build-run.sh
+   ```
+
+The app will be available at `http://<server>:2030` (or your configured `APP_URL` / `HOST_PORT`).
+
+Optional variables: `IMAGE_NAME` (default `nestpro:latest`), `CONTAINER_NAME` (default `nestpro-app`), `HOST_PORT` (default `2030`), `ENV_FILE` (e.g. `.env.docker`), and runtime vars like `APP_KEY`, `APP_URL`, `DB_*`, `RUN_MIGRATIONS`. You can also pass database details directly without an env file, for example:
 ```bash
-chmod +x docker-build-run.sh
+APP_URL=http://your-server:2030 \
+DB_CONNECTION=mysql DB_HOST=your-db-host DB_PORT=3306 \
+DB_DATABASE=nestpro DB_USERNAME=nestpro DB_PASSWORD=secret \
 ./docker-build-run.sh
-```
-
-Optional variables: `IMAGE_NAME` (default `nestpro:latest`), `CONTAINER_NAME` (default `nestpro-app`), `HOST_PORT` (default `2030`), `ENV_FILE` (e.g. `.env.docker`), and app/DB vars like `APP_KEY`, `APP_URL`, `DB_*`, `RUN_MIGRATIONS`.
-
-Example with an env file:
-
-```bash
-ENV_FILE=.env.docker APP_URL=http://your-server:2030 ./docker-build-run.sh
 ```
 
 ### Build and run with Docker Compose
