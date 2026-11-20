@@ -1,7 +1,6 @@
 <?php
 
 use Illuminate\Database\Migrations\Migration;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 
@@ -9,26 +8,37 @@ return new class extends Migration
 {
     public function up(): void
     {
-        DB::statement("alter table `flocks` modify `source` enum('hatchery', 'purchase', 'own_breeding', 'hatched', 'gifted', 'transferred') not null default 'purchase'");
+        $driver = Schema::getConnection()->getDriverName();
 
-        DB::table('flocks')->where('source', 'hatchery')->update(['source' => 'hatched']);
-        DB::table('flocks')->where('source', 'own_breeding')->update(['source' => 'hatched']);
+        // Expand allowed values first so legacy rows can be mapped on databases that enforce enums.
+        if (in_array($driver, ['mysql', 'mariadb'], true)) {
+            DB::statement("ALTER TABLE `flocks` MODIFY `source` ENUM('hatchery','purchase','own_breeding','hatched','gifted','transferred') NOT NULL DEFAULT 'purchase'");
+        }
 
-        Schema::table('flocks', function (Blueprint $table) {
-            $table->enum('source', ['purchase', 'hatched', 'gifted', 'transferred'])
-                ->default('purchase')
-                ->change();
-        });
+        DB::table('flocks')
+            ->whereIn('source', ['hatchery', 'own_breeding'])
+            ->update(['source' => 'hatched']);
+
+        if (in_array($driver, ['mysql', 'mariadb'], true)) {
+            DB::statement("ALTER TABLE `flocks` MODIFY `source` ENUM('purchase','hatched','gifted','transferred') NOT NULL DEFAULT 'purchase'");
+        }
     }
 
     public function down(): void
     {
-        DB::table('flocks')->where('source', 'hatched')->update(['source' => 'hatchery']);
+        $driver = Schema::getConnection()->getDriverName();
 
-        Schema::table('flocks', function (Blueprint $table) {
-            $table->enum('source', ['hatchery', 'purchase', 'own_breeding'])
-                ->default('purchase')
-                ->change();
-        });
+        // Allow legacy value again before remapping data on databases that enforce enums.
+        if (in_array($driver, ['mysql', 'mariadb'], true)) {
+            DB::statement("ALTER TABLE `flocks` MODIFY `source` ENUM('hatchery','purchase','own_breeding','hatched','gifted','transferred') NOT NULL DEFAULT 'purchase'");
+        }
+
+        DB::table('flocks')
+            ->where('source', 'hatched')
+            ->update(['source' => 'hatchery']);
+
+        if (in_array($driver, ['mysql', 'mariadb'], true)) {
+            DB::statement("ALTER TABLE `flocks` MODIFY `source` ENUM('hatchery','purchase','own_breeding') NOT NULL DEFAULT 'purchase'");
+        }
     }
 };
