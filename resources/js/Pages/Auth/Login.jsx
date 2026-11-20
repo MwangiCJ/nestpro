@@ -144,9 +144,7 @@ export default function Login({ status, canResetPassword }) {
                                 <h1 className="mt-1 text-2xl font-bold tracking-tight text-stone-900 sm:text-3xl">
                                     Sign in to your farm
                                 </h1>
-                                <p className="mt-2 text-sm text-stone-500">
-                                    Enter your credentials to access your NestPro dashboard.
-                                </p>
+                                
                             </div>
 
                             {status && (
