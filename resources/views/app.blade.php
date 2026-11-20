@@ -12,6 +12,9 @@
 
         <!-- Scripts -->
         @routes
+        <script>
+            window.appName = @json(config('app.name', 'Laravel'));
+        </script>
         @viteReactRefresh
         @vite(['resources/css/app.css', 'resources/js/app.jsx', "resources/js/Pages/{$page['component']}.jsx"])
         @inertiaHead
