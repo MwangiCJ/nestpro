@@ -10,7 +10,10 @@ export default function GuestLayout({ children }) {
             <div className="relative z-10 flex flex-col items-center">
                 <Link href="/" className="flex flex-col items-center gap-2">
                     <span className="flex h-16 w-16 items-center justify-center rounded-2xl bg-white shadow-lg ring-1 ring-gray-900/5">
-                        <ApplicationLogo className="h-10 w-10 fill-current text-indigo-600" />
+                        <ApplicationLogo className="h-10 w-10" />
+                    </span>
+                    <span className="text-xl font-bold tracking-tight text-gray-900">
+                        NestPro
                     </span>
                 </Link>
 
