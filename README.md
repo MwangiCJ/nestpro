@@ -9,7 +9,7 @@
 
 ## Docker
 
-This project includes Docker support for building a production-ready image (nginx + PHP-FPM) and running it with MySQL via Docker Compose.
+This project includes Docker support for building a production-ready image (nginx + PHP-FPM) and running it with an **existing/external database** (via a helper script or Docker Compose).
 
 ### Quick script (build + run on host port 2030)
 
@@ -37,19 +37,20 @@ DB_DATABASE=nestpro DB_USERNAME=nestpro DB_PASSWORD=secret \
 ./docker-build-run.sh
 ```
 
-### Build and run with Docker Compose
+### Build and run with Docker Compose (app only, existing database)
 
-1. Create an environment file (or export variables in your deployment environment):
-   - Copy values from `.env.docker.example` as a starting point.
+1. Create an environment file with your database details (Compose reads `.env` by default):
+   - Copy values from `.env.docker.example` as a starting point (e.g. to `.env` or `.env.docker`).
    - Set a strong `APP_KEY` (generate one with `php artisan key:generate --show` from a PHP/Laravel environment, or let the container generate one on first boot if none is provided).
-   - Set secure database passwords and the correct `APP_URL`.
+   - Set `DB_HOST`, `DB_PORT`, `DB_DATABASE`, `DB_USERNAME`, `DB_PASSWORD` for your existing database and the correct `APP_URL`.
 
 2. Build and start:
    ```bash
    docker compose up -d --build
+   # or: docker compose --env-file .env.docker up -d --build
    ```
 
-3. Open the app at `http://localhost:8080` (or the host/port you configured via `APP_PORT` / `APP_URL`).
+3. Open the app at `http://localhost:2030` (or the host/port you configured via `APP_PORT` / `APP_URL`).
 
 On startup the container waits for the database, runs migrations by default (`RUN_MIGRATIONS=true`), creates the storage symlink, and caches config/routes/views for production.
 
@@ -58,11 +59,11 @@ On startup the container waits for the database, runs migrations by default (`RU
 ```bash
 docker build -t nestpro:latest .
 docker run -d --name nestpro \
-  -p 8080:80 \
+  -p 2030:80 \
   -e APP_ENV=production \
   -e APP_DEBUG=false \
   -e APP_KEY=base64:YOUR_KEY_HERE \
-  -e APP_URL=http://your-server:8080 \
+  -e APP_URL=http://your-server:2030 \
   -e DB_CONNECTION=mysql \
   -e DB_HOST=your-db-host \
   -e DB_PORT=3306 \
@@ -72,7 +73,7 @@ docker run -d --name nestpro \
   nestpro:latest
 ```
 
-For SQLite instead of MySQL, set `DB_CONNECTION=sqlite` and mount/provide a persistent SQLite database file (default path is `database/database.sqlite` inside the app). For production on a remote server, prefer MySQL/PostgreSQL and a reverse proxy (TLS termination) in front of the container.
+For SQLite instead of MySQL, set `DB_CONNECTION=sqlite` and mount/provide a persistent SQLite database file (default path is `database/database.sqlite` inside the app). For production on a remote server, use a managed/existing MySQL/PostgreSQL database and a reverse proxy (TLS termination) in front of the container.
 
 ## About Laravel
 
