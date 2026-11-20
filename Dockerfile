@@ -3,7 +3,17 @@
 ############################
 # Composer dependencies
 ############################
-FROM composer:2 AS vendor
+FROM composer:2 AS composer_bin
+
+FROM php:8.3.37-cli-bookworm AS vendor
+COPY --from=composer_bin /usr/bin/composer /usr/bin/composer
+
+RUN apt-get update && apt-get install -y --no-install-recommends \
+        git \
+        unzip \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/*
+
 WORKDIR /app
 
 COPY composer.json composer.lock ./
@@ -30,7 +40,7 @@ RUN npm run build
 ############################
 # Runtime image (nginx + php-fpm)
 ############################
-FROM php:8.3-fpm-bookworm AS runtime
+FROM php:8.3.37-fpm-bookworm AS runtime
 
 # System dependencies and PHP extensions
 RUN apt-get update && apt-get install -y --no-install-recommends \
